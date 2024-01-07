@@ -2,7 +2,7 @@
 #include <vector>
 typedef long long ll;
 using namespace std;
-ll arr[100001] = { 0 };
+int arr[100001] = { 0 };
 ll sum[100001] = { 0 };
 int main(void) {
 	
@@ -10,40 +10,39 @@ int main(void) {
 	cin.tie(NULL);
 	cout.tie(NULL);
 	
-	ll N, T; cin >> N >> T;
+	int N, T; cin >> N >> T;
 	
-	for (ll i = 0; i < N; i++)
+	for (int i = 0; i < N; i++)
 	{
-		ll K; cin >> K;
-		for (ll j = 0; j < K; j++)
+		int K; cin >> K;
+		for (int j = 0; j < K; j++)
 		{
-			ll a, b; cin >> a >> b; 
+			int a, b; cin >> a >> b; 
 			arr[a] += 1, arr[b] += -1;
 		}
 	}
-
-	for (ll i = 1; i < 100001; i++)
+	for (int i = 1; i < 100001; i++)
 	{
 		arr[i] += arr[i - 1];
 	}
-
 	sum[0] = arr[0];
-	for (ll i = 1; i < 100001; i++)
+	for (int i = 1; i < 100001; i++)
 	{
 		sum[i] += sum[i - 1] + arr[i]; 
 	}
 	
-	ll st = 1; ll ed;
+	int st = 1; 
 	ll result = sum[T - 1];
-	ll left = 0, right = T; 
+	int left = 0, right = T; 
 	while (st < 100001 - T)
 	{
-		ll tmp = sum[st + T - 1] - sum[st - 1];
+		int ed = st + T - 1;
+		ll tmp = sum[ed] - sum[st - 1];
 		if (result < tmp)
 		{
-			left = st; right = st + T;
+			left = st; right = ed + 1;
+			result = max(result, tmp);  
 		}
-		result = max(result, tmp); 
 		st++;
 	}
 	cout << left << " " << right << "\n";
