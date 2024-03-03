@@ -3,7 +3,6 @@ using namespace std;
 
 int N, M, len;
 string s;
-int result = 0;
 
 int main(void) {
 
@@ -11,30 +10,31 @@ int main(void) {
 	cin.tie(NULL);
 	cout.tie(NULL);
 
-	cin >> N >> M;
-	cin >> s;
+	cin >> N >> M; 
+	cin >> s;  
+
+	int result = 0;
+	int cnt = 0;
 
 	for (int i = 0; i < M; i++)
 	{
 		if (s[i] == 'I') {
 
-			int cnt = 0;
-			int init = i;
-
-			while (s[init + 1] == 'O' && s[init + 2] == 'I')
+			while (s[i + 1] == 'O' && s[i + 2] == 'I')
 			{
-				cnt++; 
+				cnt++;
 				if (cnt == N)
 				{
-					result++;  
-					break;
+					result++;
+					cnt--;
 				}
-				init += 2;
+				i += 2;
 			}
+			cnt = 0;
 		}
 	}
 
-	cout << result << "\n";
+	cout << result << "\n"; 
 
 	return 0;
 }
