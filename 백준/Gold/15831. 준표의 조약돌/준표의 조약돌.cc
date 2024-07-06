@@ -1,55 +1,47 @@
 #include <iostream>
-#include <vector>
+#include <string>
+#include <algorithm> 
 #include <map>
+
 using namespace std;
+
+
 int main() {
+    int n;
+    cin >> n;
 
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
+    int b, w;
+    cin >> b >> w;
 
-    int N, B, W; cin >> N >> B >> W;
-    string s; cin >> s; 
-    map<char, int>m;
-    m['W'] = 0;
-    m['B'] = 0;
-    int st = 0; int ed = 0;
-    int result = 1;
-    int len = 0;
-    m[s[st]] += 1;
-    if (m['W'] >= W && m['B'] <= B) {
-        len = max(result, len);
-    }
-    while (ed + 1 < N) 
-    {
-        if (s[ed+1] == 'B')
-        {
-            if (m['B'] < B)
-            {
-                ed++; 
-                m[s[ed]] += 1;
-                result++; 
-                if (m['W'] >= W) {
-                    len = max(result, len); 
-                }
-            }
-            else
-            {
-                m[s[st]] -= 1;
-                st++; 
-                result--; 
-            }
+
+    string s;
+    cin >> s;
+
+
+    int bw[2] = { 0,0 }; //0은 검정 1은 흰색
+    map<char, int>color_map;
+    color_map['W'] = 1;
+    color_map['B'] = 0;
+    int l = 0, r = 0;
+    int maxlength = 0;
+
+    while (r < n) {
+        bw[color_map[s[r]]]++;
+        r++;
+
+ 
+        while (bw[0] > b ) {
+            bw[color_map[s[l]]]--;
+            l++;
         }
-        else
-        {
-            ed++; 
-            m[s[ed]] += 1;
-            result++;
-            if (m['W'] >= W) {
-                len = max(result, len);
-            }
+
+        if (bw[0] <= b && bw[1] >= w) {
+            maxlength = max(maxlength, r - l);
         }
     }
-    cout << len << "\n";
+
+    cout << maxlength << '\n';
+    
+
     return 0;
 }
