@@ -45,9 +45,9 @@ class Solution {
 
     private void executeDp() {
         for (int coin : arr) {
-            for (int i = dp.length - 1; i >= coin; i--) {
-                if (dp[i - coin] != Integer.MAX_VALUE) {
-                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            for (int idx = dp.length - 1; idx >= coin; idx--) {
+                if (dp[idx - coin] != Integer.MAX_VALUE) {
+                    dp[idx] = Math.min(dp[idx], dp[idx - coin] + 1);
                 }
             }
         }
@@ -55,11 +55,9 @@ class Solution {
 
     private void init() {
         dp = new int[totalSum + 1];
-
         for (int i = 0; i <= totalSum; i++) {
             dp[i] = Integer.MAX_VALUE;
         }
-
         dp[0] = 0;
     }
 
