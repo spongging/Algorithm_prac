@@ -14,30 +14,33 @@ class Solution {
     private final ArrayList<Query> queries = new ArrayList<>();
     private int[][] dp;
 
+    private final StringBuilder sb = new StringBuilder(1 << 20);
+
     public void solution() throws IOException {
         input();
         executeDp();
 
         for (Query q : queries) {
-            output(getAnswer(q));
+            output(getAnswer(q));   
         }
+
+        System.out.print(sb);
     }
 
     private int getAnswer(Query q) {
-        return dp[q.getC() - 'a'][q.getEd()] - (q.getSt() > 0 ? dp[q.getC() - 'a'][q.getSt() - 1] : 0);
+        return dp[q.getC() - 'a'][q.getEd()]
+                - (q.getSt() > 0 ? dp[q.getC() - 'a'][q.getSt() - 1] : 0);
     }
 
     private void output(int answer) {
-        System.out.println(answer);
+        sb.append(answer).append('\n');
     }
-
 
     private void executeDp() {
         for (int i = 0; i < S.length(); i++) {
             char c = S.charAt(i);
             dp[c - 'a'][i] = 1;
         }
-
         for (int i = 0; i < 26; i++) {
             for (int j = 1; j < S.length(); j++) {
                 dp[i][j] += dp[i][j - 1];
@@ -46,19 +49,23 @@ class Solution {
     }
 
     private void input() throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in), 1 << 16);
 
-        S = br.readLine().trim();
-        Q = Integer.parseInt(br.readLine().trim());
+        S = br.readLine();
+        Q = Integer.parseInt(br.readLine());
 
         for (int i = 0; i < Q; i++) {
-            String[] line = br.readLine().split(" ");
-            queries.add(new Query(line[0].charAt(0), Integer.parseInt(line[1]), Integer.parseInt(line[2])));
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            char c = st.nextToken().charAt(0);
+            int stIdx = Integer.parseInt(st.nextToken());
+            int edIdx = Integer.parseInt(st.nextToken());
+            queries.add(new Query(c, stIdx, edIdx));
         }
 
         dp = new int[26][S.length()];
     }
 }
+
 
 class Query {
     private final char c;
